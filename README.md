@@ -41,3 +41,11 @@ samples, guidance on mobile development, and a full API reference.
 
 https://github.com/user-attachments/assets/16c2a5e9-2345-4915-9c22-e7668b15d18d
 
+
+## Description
+A Minimal Habit Tracker application is a simple and intuitive tool designed to help users build and maintain positive habits without unnecessary complexity. The app focuses on essential features, ensuring ease of use and a distraction-free experience.
+
+Optional Features (if needed):
+->Dark Mode: An option to switch between light and dark themes.
+->Customization: Basic customization options like colors or icons for habits.
+->Backup/Restore: Simple options to backup and restore habit data, ensuring users don’t lose their progress.
