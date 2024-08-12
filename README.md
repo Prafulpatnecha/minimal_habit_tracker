@@ -14,3 +14,30 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+###
+<h1></h1>
+<h3 align="center"><i>Minimal Habit Tracker - Flutter</i></h3>
+<h1></h1>
+<div align="center">
+<img src="https://github.com/Prafulpatnecha/minimal_habit_tracker/blob/master/image.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/minimal_habit_tracker/blob/master/image1.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/minimal_habit_tracker/blob/master/image2.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/minimal_habit_tracker/blob/master/image3.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/minimal_habit_tracker/blob/master/image4.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/minimal_habit_tracker/blob/master/image5.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/minimal_habit_tracker/blob/master/image6.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/minimal_habit_tracker/blob/master/image7.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/minimal_habit_tracker/blob/master/image8.png" height=450px hspace=20>
+
+</div>
+
+<h1></h1>
+<div align="center">
+<a href="https://github.com/Prafulpatnecha/minimal_habit_tracker/tree/master/lib">-> Code File Link <-</a>
+</div>
+<h1></h1>
+
+
+https://github.com/user-attachments/assets/16c2a5e9-2345-4915-9c22-e7668b15d18d
+
