@@ -1,19 +1,22 @@
-import 'dart:async';
+// import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-import 'package:get/get_common/get_reset.dart';
+// import 'package:get/get_common/get_reset.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:minimal_habit_tracker/controller/home_get_controller.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    GetXHome getXHome=Get.put(GetXHome());
+    GetXHome getXHome = Get.put(GetXHome());
+    HomeProvider homeProviderTrue = Provider.of(context, listen: true);
+    HomeProvider homeProviderFalse = Provider.of(context, listen: false);
     // Timer.periodic(Duration(seconds: 1), (timer) {
     //   getXHome.dateDay();
     // },);
@@ -25,7 +28,7 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 // Obx(() => Text("${getXHome.dateTime.value.second}"),),
-
+                // Text(homeProviderTrue.dateTime.toString()),
                 HeatMapCalendar(
                   defaultColor: Theme.of(context).colorScheme.onError,
                   flexible: true,
@@ -34,7 +37,7 @@ class HomePage extends StatelessWidget {
                   textColor: Theme.of(context).colorScheme.onPrimary,
                   colorMode: ColorMode.color,
                   datasets: {
-                    DateTime(dateTime.year, dateTime.month, dateTime.day): 7,
+
                   },
                   colorsets: {
                     1: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
@@ -58,23 +61,52 @@ class HomePage extends StatelessWidget {
                     );
                   },
                 ),
-                SizedBox(height: 50,),
+                SizedBox(
+                  height: 50,
+                ),
                 ...List.generate(
-                  2,
+                  homeProviderTrue.thisTimeHabitList.length,
                   (index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: Container(
                         decoration: BoxDecoration(
-                        color: Colors.white,
-                          borderRadius: BorderRadius.circular(20)
-                        ),
+                            color: (index == homeProviderTrue.thisTimeHabitList[index].number) ?Colors.green:Colors.white,
+                            borderRadius: BorderRadius.circular(20)),
                         child: Slidable(
                           endActionPane: ActionPane(
                             motion: const DrawerMotion(),
                             children: [
                               SlidableAction(
-                                onPressed: (context) {},
+                                onPressed: (context) {
+                                  TextEditingController txtController = TextEditingController();
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: TextFormField(
+                                        controller: txtController,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.black)),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.black)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.black)),
+                                        ),
+                                      ),
+                                      actions: [
+                                        MaterialButton(onPressed: () {
+                                          // homeProviderFalse.updateData(1,removeAndAddValue: true);
+                                          context.read<HomeProvider>().updateHabitName(value:homeProviderTrue.thisTimeHabitList[index].name,newName: txtController.text.toString());
+                                          Navigator.of(context).pop();
+                                        },child: const Text("Save"),),
+                                        MaterialButton(onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },child: const Text("Cancel"),),
+                                      ],
+                                    ),
+                                  );
+                                },
                                 foregroundColor: Colors.white,
                                 backgroundColor: Colors.green,
                                 icon: Icons.edit,
@@ -84,19 +116,24 @@ class HomePage extends StatelessWidget {
                                 foregroundColor: Colors.white,
                                 icon: Icons.delete,
                                 backgroundColor: Colors.red,
-                                onPressed: (context) {},
+                                onPressed: (context) {
+                                  homeProviderFalse.deleteHabit(homeProviderTrue.thisTimeHabitList[index].name, index);
+                                },
                                 label: "Delete",
                               ),
                             ],
                           ),
                           child: ListTile(
                             leading: Checkbox.adaptive(
-                              value: (index==1)?true:false, onChanged: (value) {
-
-                            },),
+                              value: (index == homeProviderTrue.thisTimeHabitList[index].number) ? true : false,
+                              onChanged: (value) {
+                                homeProviderFalse.updateIndex(homeProviderTrue.thisTimeHabitList[index].name,index);
+                                homeProviderFalse.updateData(index);
+                                },
+                            ),
                             title: Padding(
                               padding: const EdgeInsets.all(20.0),
-                              child: Text("Slider"),
+                              child: Text(homeProviderTrue.thisTimeHabitList[index].name),
                             ),
                           ),
                         ),
@@ -110,17 +147,42 @@ class HomePage extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-
-            // print("object");
+            TextEditingController txtController = TextEditingController();
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: TextFormField(
+                  controller: txtController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black)),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black)),
+                  ),
+                ),
+                actions: [
+                  MaterialButton(onPressed: () {
+                    // homeProviderFalse.updateData(1,removeAndAddValue: true);
+                    context.read<HomeProvider>().addHabit(txtController.text.toString());
+                    Navigator.of(context).pop();
+                  },child: const Text("Save"),),
+                  MaterialButton(onPressed: () {
+                    Navigator.of(context).pop();
+                  },child: const Text("Cancel"),),
+                ],
+              ),
+            );
           },
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
       ),
     );
   }
 }
 
-DateTime dateTime = DateTime.now();
+// DateTime dateTime = DateTime.now();
 
 //TODO this logic have create and last one implement.
 //TODO--------------------------------->PRAFUL<-----------------------------------------

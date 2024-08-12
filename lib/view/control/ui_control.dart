@@ -10,18 +10,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => HomeProvider(),),],
-      builder: (context, child) => GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "Minimal Habit",
-        theme: ThemeEdit.lightTheme,
-        darkTheme: ThemeEdit.darkTheme,
-        themeMode: ThemeMode.system,
-        getPages: [
-          GetPage(name: "/", page: () => const HomePage(),),
-        ],
-      ),
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Minimal Habit",
+      theme: ThemeEdit.lightTheme,
+      darkTheme: ThemeEdit.darkTheme,
+      themeMode: ThemeMode.system,
+      getPages: [
+        GetPage(name: "/", page: () => const HomePage(),),
+      ],
     );
   }
 }

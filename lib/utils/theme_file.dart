@@ -14,7 +14,7 @@ class ThemeEdit {
           surface: Colors.white.withOpacity(0.9),
           onSurface: Colors.black));
   static ThemeData darkTheme = ThemeData.dark().copyWith(
-      floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: Colors.white),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: Colors.white),
       colorScheme: ColorScheme(
           brightness: Brightness.dark,
           primary: Colors.black,
