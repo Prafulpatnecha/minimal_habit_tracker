@@ -7,6 +7,6 @@ class HomeHabit
   Id id= Isar.autoIncrement;
   late String name;
   int? number;
-  List<DateTime> dateTimeOk=[
+  List<int> dateTimeOk=[
   ];
 }

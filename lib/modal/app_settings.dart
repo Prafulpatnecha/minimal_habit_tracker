@@ -7,4 +7,5 @@ class AppSettings{
   Id id= Isar.autoIncrement;
   DateTime? firstLaunchDate;
   int? number;
+  List<int> checkListSetting=[];
 }

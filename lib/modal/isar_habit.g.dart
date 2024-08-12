@@ -20,7 +20,7 @@ const HomeHabitSchema = CollectionSchema(
     r'dateTimeOk': PropertySchema(
       id: 0,
       name: r'dateTimeOk',
-      type: IsarType.dateTimeList,
+      type: IsarType.longList,
     ),
     r'name': PropertySchema(
       id: 1,
@@ -64,7 +64,7 @@ void _homeHabitSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTimeList(offsets[0], object.dateTimeOk);
+  writer.writeLongList(offsets[0], object.dateTimeOk);
   writer.writeString(offsets[1], object.name);
   writer.writeLong(offsets[2], object.number);
 }
@@ -76,7 +76,7 @@ HomeHabit _homeHabitDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = HomeHabit();
-  object.dateTimeOk = reader.readDateTimeList(offsets[0]) ?? [];
+  object.dateTimeOk = reader.readLongList(offsets[0]) ?? [];
   object.id = id;
   object.name = reader.readString(offsets[1]);
   object.number = reader.readLongOrNull(offsets[2]);
@@ -91,7 +91,7 @@ P _homeHabitDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTimeList(offset) ?? []) as P;
+      return (reader.readLongList(offset) ?? []) as P;
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
@@ -193,7 +193,7 @@ extension HomeHabitQueryWhere
 extension HomeHabitQueryFilter
     on QueryBuilder<HomeHabit, HomeHabit, QFilterCondition> {
   QueryBuilder<HomeHabit, HomeHabit, QAfterFilterCondition>
-      dateTimeOkElementEqualTo(DateTime value) {
+      dateTimeOkElementEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'dateTimeOk',
@@ -204,7 +204,7 @@ extension HomeHabitQueryFilter
 
   QueryBuilder<HomeHabit, HomeHabit, QAfterFilterCondition>
       dateTimeOkElementGreaterThan(
-    DateTime value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -218,7 +218,7 @@ extension HomeHabitQueryFilter
 
   QueryBuilder<HomeHabit, HomeHabit, QAfterFilterCondition>
       dateTimeOkElementLessThan(
-    DateTime value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -232,8 +232,8 @@ extension HomeHabitQueryFilter
 
   QueryBuilder<HomeHabit, HomeHabit, QAfterFilterCondition>
       dateTimeOkElementBetween(
-    DateTime lower,
-    DateTime upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -691,8 +691,7 @@ extension HomeHabitQueryProperty
     });
   }
 
-  QueryBuilder<HomeHabit, List<DateTime>, QQueryOperations>
-      dateTimeOkProperty() {
+  QueryBuilder<HomeHabit, List<int>, QQueryOperations> dateTimeOkProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dateTimeOk');
     });

@@ -17,13 +17,18 @@ const AppSettingsSchema = CollectionSchema(
   name: r'AppSettings',
   id: -5633561779022347008,
   properties: {
-    r'firstLaunchDate': PropertySchema(
+    r'checkListSetting': PropertySchema(
       id: 0,
+      name: r'checkListSetting',
+      type: IsarType.longList,
+    ),
+    r'firstLaunchDate': PropertySchema(
+      id: 1,
       name: r'firstLaunchDate',
       type: IsarType.dateTime,
     ),
     r'number': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'number',
       type: IsarType.long,
     )
@@ -48,6 +53,7 @@ int _appSettingsEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.checkListSetting.length * 8;
   return bytesCount;
 }
 
@@ -57,8 +63,9 @@ void _appSettingsSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.firstLaunchDate);
-  writer.writeLong(offsets[1], object.number);
+  writer.writeLongList(offsets[0], object.checkListSetting);
+  writer.writeDateTime(offsets[1], object.firstLaunchDate);
+  writer.writeLong(offsets[2], object.number);
 }
 
 AppSettings _appSettingsDeserialize(
@@ -68,9 +75,10 @@ AppSettings _appSettingsDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = AppSettings();
-  object.firstLaunchDate = reader.readDateTimeOrNull(offsets[0]);
+  object.checkListSetting = reader.readLongList(offsets[0]) ?? [];
+  object.firstLaunchDate = reader.readDateTimeOrNull(offsets[1]);
   object.id = id;
-  object.number = reader.readLongOrNull(offsets[1]);
+  object.number = reader.readLongOrNull(offsets[2]);
   return object;
 }
 
@@ -82,8 +90,10 @@ P _appSettingsDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readLongList(offset) ?? []) as P;
     case 1:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 2:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -183,6 +193,151 @@ extension AppSettingsQueryWhere
 
 extension AppSettingsQueryFilter
     on QueryBuilder<AppSettings, AppSettings, QFilterCondition> {
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      checkListSettingElementEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'checkListSetting',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      checkListSettingElementGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'checkListSetting',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      checkListSettingElementLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'checkListSetting',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      checkListSettingElementBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'checkListSetting',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      checkListSettingLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'checkListSetting',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      checkListSettingIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'checkListSetting',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      checkListSettingIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'checkListSetting',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      checkListSettingLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'checkListSetting',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      checkListSettingLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'checkListSetting',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      checkListSettingLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'checkListSetting',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
       firstLaunchDateIsNull() {
     return QueryBuilder.apply(this, (query) {
@@ -459,6 +614,13 @@ extension AppSettingsQuerySortThenBy
 extension AppSettingsQueryWhereDistinct
     on QueryBuilder<AppSettings, AppSettings, QDistinct> {
   QueryBuilder<AppSettings, AppSettings, QDistinct>
+      distinctByCheckListSetting() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'checkListSetting');
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QDistinct>
       distinctByFirstLaunchDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'firstLaunchDate');
@@ -477,6 +639,13 @@ extension AppSettingsQueryProperty
   QueryBuilder<AppSettings, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<AppSettings, List<int>, QQueryOperations>
+      checkListSettingProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'checkListSetting');
     });
   }
 
